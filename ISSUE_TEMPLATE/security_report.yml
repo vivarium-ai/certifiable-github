@@ -1,0 +1,14 @@
+name: Report a security vulnerability
+description: Report a security issue privately
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **Please do not report security vulnerabilities in public issues.**
+
+        To report a security issue, follow the instructions in `SECURITY.md`
+        for this repository or organization.
+
+        This helps ensure responsible disclosure and protects users.
+
