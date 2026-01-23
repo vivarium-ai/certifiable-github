@@ -39,12 +39,18 @@ jobs:
             ccache-${{ runner.os }}-${{ github.ref_name }}-
             ccache-${{ runner.os }}-
 
-      - name: Show ccache stats (before)
-        run: ccache -s || true
-
       - name: Setup
         run: |
           make setup
+
+      - name: Configure ccache
+        shell: bash
+        run: |
+          mkdir -p ~/.ccache
+          ccache --version
+          ccache -M 1G
+          ccache -s || true
+          ccache -z || true
 
       - name: Configure
         run: |
