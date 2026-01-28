@@ -1,0 +1,68 @@
+name: Tenstorrent CI
+
+on:
+  workflow_call:
+    inputs:
+      build-target:
+        required: true
+        type: string
+      tt_dev_image:
+        description: "Tenstorrent dev container image to run the job inside"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  tt-build:
+    name: ${{ inputs.build-target }}
+    runs-on: ubuntu-latest
+
+    container:
+      image: ${{ inputs.tt_dev_image }}
+      options: --user 0:0
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore ccache
+        uses: actions/cache@v4
+        with:
+          path: |
+            /github/home/.cache/ccache
+          key: ccache-${{ runner.os }}-tt-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ccache-${{ runner.os }}-tt-${{ github.ref_name }}-
+            ccache-${{ runner.os }}-tt-
+
+      - name: Show environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          uname -a || true
+          id || true
+          pwd
+          ls -la
+
+      - name: make setup
+        run: |
+          make setup
+
+      - name: make config
+        run: |
+          make config
+
+      - name: make build
+        run: |
+          make build
+
+      - name: make test
+        run: |
+          make test
+
+      - name: Save ccache stats
+        run: |
+          command -v ccache >/dev/null 2>&1 && ccache -s || true
+
