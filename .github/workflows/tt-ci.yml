@@ -27,16 +27,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Restore ccache
-        uses: actions/cache@v4
-        with:
-          path: |
-            /github/home/.cache/ccache
-          key: ccache-${{ runner.os }}-tt-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            ccache-${{ runner.os }}-tt-${{ github.ref_name }}-
-            ccache-${{ runner.os }}-tt-
-
       - name: Show environment
         shell: bash
         run: |
@@ -61,8 +51,3 @@ jobs:
       - name: make test
         run: |
           make test
-
-      - name: Save ccache stats
-        run: |
-          command -v ccache >/dev/null 2>&1 && ccache -s || true
-
