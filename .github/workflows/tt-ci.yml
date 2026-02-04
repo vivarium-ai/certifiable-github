@@ -24,6 +24,15 @@ jobs:
       options: --user 0:0
 
     steps:
+      - name: Setup Homebrew (Linux)
+        if: runner.os == 'Linux'
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Show Homebrew info
+        run: |
+          which brew || echo "brew not in PATH"
+          brew --version
+
       - name: Checkout
         uses: actions/checkout@v4
 
