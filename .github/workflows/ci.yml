@@ -36,6 +36,7 @@ jobs:
 
       - name: Show compiler info
         run: |
+          env
           command -v g++ clang++ gcc clang
           gcc --version
           g++ --version
