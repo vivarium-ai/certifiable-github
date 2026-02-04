@@ -34,6 +34,14 @@ jobs:
           which brew || echo "brew not in PATH"
           brew --version
 
+      - name: Show compiler info
+        run: |
+          command -v g++ clang++ gcc clang
+          gcc --version
+          g++ --version
+          clang --version
+          clang++ --version
+
       - name: Checkout
         uses: actions/checkout@v4
 
